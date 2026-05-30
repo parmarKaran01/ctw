@@ -1,0 +1,15 @@
+.overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+.open { display: flex; }
+.inner {
+  position: relative; width: min(860px, 92vw);
+  aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden;
+}
+.close {
+  position: absolute; top: -40px; right: 0;
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.7); font-size: 22px;
+}

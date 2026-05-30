@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+studio/node_modules/
+studio/dist/
+studio/.sanity/
 
 # testing
 /coverage

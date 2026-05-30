@@ -3,25 +3,108 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cream:      #F4F1EB;
+  --ink:        #0E0E0C;
+  --ink2:       #3A3A35;
+  --ink3:       #7A7A72;
+  --card-bg:    #1C1B18;
+  --card-txt:   #F0EDE6;
+  --green-pill: #D6F0D0;
+  --green-text: #2A6B22;
+  --radius-lg:  20px;
+  --radius-md:  12px;
+  --radius-sm:  8px;
+  --nav-h:      58px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Layout ── */
+.fixed-stage {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 20vw;
+  gap: 48px;
+  overflow: hidden;
+}
+.lhs {
+  display: flex; flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+}
+.rhs {
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding-top: 20px;
+  min-width: 0;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* ── Hero text ── */
+.eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink3); margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--font-serif); font-size: clamp(38px, 4.5vw, 58px);
+  line-height: 1.06; font-weight: 400; color: var(--ink); margin-bottom: 28px;
+}
+h1 em { font-style: italic; }
+
+/* ── Testimonials (Glass Marquee) ── */
+.testimonials {
+  margin-top: 28px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(230,232,235,0.2) 0%, rgba(245,246,248,0.3) 100%);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+}
+.testi-track {
+  display: flex; gap: 16px; width: max-content;
+  animation: scrollTestimonials 30s linear infinite;
+  padding: 10px 0;
+}
+.testi-track:hover { animation-play-state: paused; }
+@keyframes scrollTestimonials {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.testi-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  background: transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--ink2);
+}
+.testi-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.testi-quote  { font-size: 12px; color: var(--ink2); font-weight: 500; }
+.testi-stat   { margin-top: 10px; font-size: 11px; color: var(--ink3); display: flex; align-items: center; gap: 5px; }
+.testi-dot    { width: 5px; height: 5px; border-radius: 50%; background: #5DC96A; flex-shrink: 0; display: inline-block; }
+
+/* ── Gallery page ── */
+.page-header {
+  padding: 52px 28px 32px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; overflow-y: auto; }
+  .fixed-stage { position: static; grid-template-columns: 1fr; padding: 16px; padding-top: 70px; padding-bottom: 40px; overflow: hidden; }
+  .lhs { padding: 0; }
+  .rhs { border-left: none; padding: 0; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 32px; }
+  h1 { font-size: 36px; }
+  .page-header { padding: 28px 16px 20px; }
+  .hero-bg { position: fixed; inset: 0; min-height: 0; z-index: -1; }
 }
