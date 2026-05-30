@@ -1,4 +1,5 @@
-export default {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const pricingTier = {
   name: "pricingTier",
   title: "Pricing Tier",
   type: "document",
@@ -44,3 +45,5 @@ export default {
     select: { title: "name", subtitle: "billingCycle" },
   },
 };
+
+export default pricingTier;

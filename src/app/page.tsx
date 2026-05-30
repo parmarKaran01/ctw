@@ -1,14 +1,13 @@
 import { unstable_cache } from "next/cache";
-import { client, sanityFetch } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/client";
 import {
   SITE_SETTINGS_QUERY,
   FEATURED_VIDEOS_QUERY,
   PRICING_QUERY
 } from "@/sanity/queries";
-import type { SiteSettings, SanityVideo, TrustedBrand, PricingTier } from "@/types/sanity";
+import type { SiteSettings, SanityVideo, PricingTier } from "@/types/sanity";
 import { Navbar } from "@/components/v2/Navbar";
 import { HeroSection } from "@/components/v2/Herosection";
-import { PersonalSoftwareSection } from "@/components/v2/Personalsoftwaresection";
 import { Footer } from "@/components/v2/Footer";
 import EscapeSection from "@/components/v2/Escapesection";
 import TrustedBy from "@/components/v2/TrustedBy";
@@ -37,6 +36,7 @@ export default async function Home() {
     getFeatured(),
      getPricingTiers(),  
   ]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const brands = settings?.trustedBy?.map((brand: any) => ({ name: brand.name, logoUrl: brand.logo ? brand.logo : null, })) || [];
    // Split tiers by billing cycle
   const quarterlyTiers = allTiers?.filter((t) => t.billingCycle === "quarterly") ?? [];

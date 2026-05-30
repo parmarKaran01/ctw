@@ -38,95 +38,6 @@ const CalendarIcon = () => (
   </svg>
 );
 
-function PricingCard({
-  tier,
-  active,
-  bookCallUrl,
-  whatsappUrl,
-}: {
-  tier: PricingTier;
-  active: boolean;
-  bookCallUrl: string;
-  whatsappUrl?: string;
-}) {
-  return (
-    <div
-      className={`flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 sm:p-7 ${
-        active
-          ? "border-[#d0d0d0] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]"
-          : "border-[#ebebeb] bg-white opacity-35 pointer-events-none select-none"
-      }`}
-    >
-      {/* Tier name + turnaround */}
-      <div className="mb-4 flex items-start justify-between gap-3">
-        <div>
-          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#888]">
-            {tier.label}
-          </p>
-          <h3 className="mt-0.5 text-base font-semibold tracking-tight text-[#191919]">
-            {tier.name}
-          </h3>
-        </div>
-        {tier.turnaround && (
-          <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-2.5 py-1 text-[11px] font-medium text-[#555]">
-            {tier.turnaround}
-          </span>
-        )}
-      </div>
-
-      {/* Price */}
-      <div className="mb-1 flex items-end gap-1.5">
-        <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919]">
-          {tier.price}
-        </span>
-        <span className="mb-1 text-sm text-[#888]">{tier.period}</span>
-      </div>
-
-      {tier.badge && (
-        <p className="mb-4 text-[12px] text-[#888]">{tier.badge}</p>
-      )}
-
-      <div className="mb-4 h-px bg-[#f0f0f0]" />
-
-      {tier.description && (
-        <p className="mb-4 text-[13px] leading-relaxed text-[#555]">
-          {tier.description}
-        </p>
-      )}
-
-      <ul className="mb-6 flex flex-col gap-2.5">
-        {tier.features.map((feature, i) => (
-          <li key={i} className="flex items-start gap-2.5 text-[13px] text-[#333]">
-            <CheckIcon />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-auto flex flex-col gap-2.5">
-        <a
-          href={whatsappUrl ?? bookCallUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3 text-[13px] font-medium text-[#191919] transition-colors hover:bg-[#f5f5f5]"
-        >
-          <WhatsAppIcon />
-          {tier.ctaLabel ?? "Message Us"}
-        </a>
-        <a
-          href={bookCallUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3 text-[13px] font-medium text-white transition-colors hover:bg-[#333]"
-        >
-          <CalendarIcon />
-          Talk to Us
-        </a>
-      </div>
-    </div>
-  );
-}
-
 export default function PricingSection({
   quarterlyTiers,
   monthlyTiers,
@@ -134,12 +45,6 @@ export default function PricingSection({
   whatsappUrl,
 }: Props) {
   const [billing, setBilling] = useState<"quarterly" | "monthly">("quarterly");
-
-  // Each billing cycle's tiers become one column.
-  // quarterlyTiers[0] sits beside monthlyTiers[0], etc.
-  // The column whose billing cycle matches the toggle is fully visible;
-  // the other column is dimmed.
-  const colCount = Math.max(quarterlyTiers.length, monthlyTiers.length);
 
   return (
     <section className="bg-white px-4 py-16 sm:px-6 sm:py-20">

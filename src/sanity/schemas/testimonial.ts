@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default {
+const testimonial = {
   name: "testimonial",
   title: "Testimonial",
   type: "document",
@@ -14,3 +14,5 @@ export default {
     { name: "order", type: "number", title: "Sort order" },
   ],
 };
+
+export default testimonial;

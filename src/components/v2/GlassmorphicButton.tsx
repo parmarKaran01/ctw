@@ -6,11 +6,18 @@ import { cn } from "@/lib/utils";
 
 type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
+const variantStyles: Record<string, string> = {
+  header: "px-4 py-2 text-sm font-medium",
+  cta: "px-6 py-3 text-base font-medium",
+  announcement: "px-4 py-2 text-sm font-medium",
+};
+
 export function GlassmorphicButton({
   children,
   containerClassName,
   className,
   as: Tag = "button",
+  variant = "cta",
   duration = 1,
   clockwise = true,
   ...props
@@ -19,9 +26,10 @@ export function GlassmorphicButton({
     as?: React.ElementType;
     containerClassName?: string;
     className?: string;
+    variant?: "header" | "cta" | "announcement";
     duration?: number;
     clockwise?: boolean;
-  } & React.HTMLAttributes<HTMLElement>
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>
 >) {
   if (Tag === "link") Tag = "a";
   const [hovered, setHovered] = useState<boolean>(false);
@@ -70,7 +78,8 @@ export function GlassmorphicButton({
     >
       <div
         className={cn(
-          "w-auto text-[#191919] z-10 bg-white px-4 py-2 rounded-[inherit]",
+          "w-auto text-[#191919] z-10 bg-white rounded-[inherit]",
+          variantStyles[variant] || "px-4 py-2",
           className
         )}
       >

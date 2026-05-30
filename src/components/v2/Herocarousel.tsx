@@ -14,13 +14,6 @@ interface HeroCarouselProps {
   videos: Pick<SanityVideo, "_id" | "title" | "loopClipUrl" | "loopClipPoster">[];
 }
 
-/**
- * Card dimensions mirror the original Wabi layout:
- * ~58vw wide on desktop (capped at ~580px), maintaining ~16:10 ratio.
- */
-const CARD_W = 580;   // px — used only for the 3D translate calculation
-const CARD_H = 580;   // base height; CSS overrides with clamp
-
 /** How far apart (translateX) the inactive cards sit from centre */
 const SIDE_OFFSET_X = 320;
 const SIDE_OFFSET_Y = -28;
@@ -30,7 +23,6 @@ const SIDE_ROTATE = 8; // degrees
 function getCardStyle(
   index: number,
   active: number,
-  total: number
 ): React.CSSProperties {
   const diff = index - active;
 
@@ -102,7 +94,10 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
   const onMouseUp = (e: MouseEvent) => {
     if (dragStartX.current === null) return;
     const delta = e.clientX - dragStartX.current;
-    if (Math.abs(delta) > 40) delta < 0 ? next() : prev();
+    if (Math.abs(delta) > 40) {
+      if (delta < 0) next();
+      else prev();
+    }
     dragStartX.current = null;
   };
 
@@ -113,7 +108,10 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
   const onTouchEnd = (e: TouchEvent) => {
     if (dragStartX.current === null) return;
     const delta = e.changedTouches[0].clientX - dragStartX.current;
-    if (Math.abs(delta) > 40) delta < 0 ? next() : prev();
+    if (Math.abs(delta) > 40) {
+      if (delta < 0) next();
+      else prev();
+    }
     dragStartX.current = null;
   };
 
@@ -138,7 +136,7 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
             style={{
               height: "clamp(580px, 58vw, 840px)",
               transition: "transform 0.5s cubic-bezier(0.32,0.72,0,1), opacity 0.4s ease",
-              ...getCardStyle(i, active, videos.length),
+              ...getCardStyle(i, active),
             }}
             onClick={() => {
               if (!isDragging.current && i !== active) setActive(i);

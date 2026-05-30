@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default {
+const video = {
   name: "video",
   title: "Video",
   type: "document",
@@ -78,3 +78,5 @@ export default {
     select: { title: "title", subtitle: "tag", media: "thumbnail" },
   },
 };
+
+export default video;
