@@ -1,17 +1,18 @@
 import { unstable_cache } from "next/cache";
-import { sanityFetch } from "@/sanity/client";
+import { client, sanityFetch } from "@/sanity/client";
 import {
   SITE_SETTINGS_QUERY,
   FEATURED_VIDEOS_QUERY,
-  PRICING_QUERY,
-  TESTIMONIALS_QUERY,
+  PRICING_QUERY
 } from "@/sanity/queries";
-import Nav from "@/components/Nav";
-import CardStack from "@/components/CardStack";
-import PricingPanel from "@/components/PricingPanel";
-import TrustedBy from "@/components/TrustedBy";
-import HeroBackground from "@/components/HeroBackground";
-import type { SiteSettings, Video, PricingTier, Testimonial } from "@/types/sanity";
+import type { SiteSettings, SanityVideo, TrustedBrand, PricingTier } from "@/types/sanity";
+import { Navbar } from "@/components/v2/Navbar";
+import { HeroSection } from "@/components/v2/Herosection";
+import { PersonalSoftwareSection } from "@/components/v2/Personalsoftwaresection";
+import { Footer } from "@/components/v2/Footer";
+import EscapeSection from "@/components/v2/Escapesection";
+import TrustedBy from "@/components/v2/TrustedBy";
+import PricingSection from "@/components/v2/Pricingsection";
 
 const getSettings = unstable_cache(
   () => sanityFetch<SiteSettings>(SITE_SETTINGS_QUERY),
@@ -20,66 +21,67 @@ const getSettings = unstable_cache(
 );
 
 const getFeatured = unstable_cache(
-  () => sanityFetch<Video[]>(FEATURED_VIDEOS_QUERY),
+  () => sanityFetch<SanityVideo[]>(FEATURED_VIDEOS_QUERY),
   ["featured"],
   { tags: ["video"] },
 );
-
-const getPricing = unstable_cache(
+const getPricingTiers = unstable_cache(
   () => sanityFetch<PricingTier[]>(PRICING_QUERY),
-  ["pricing"],
+  ["pricingTiers"],
   { tags: ["pricingTier"] },
 );
 
-const getTestimonials = unstable_cache(
-  () => sanityFetch<Testimonial[]>(TESTIMONIALS_QUERY),
-  ["testimonials"],
-  { tags: ["testimonial"] },
-);
-
 export default async function Home() {
-  const [settings, videos, pricing, testimonials] = await Promise.all([
+  const [settings, videos, allTiers] = await Promise.all([
     getSettings(),
     getFeatured(),
-    getPricing(),
-    getTestimonials(),
+     getPricingTiers(),  
   ]);
-
+  const brands = settings?.trustedBy?.map((brand: any) => ({ name: brand.name, logoUrl: brand.logo ? brand.logo : null, })) || [];
+   // Split tiers by billing cycle
+  const quarterlyTiers = allTiers?.filter((t) => t.billingCycle === "quarterly") ?? [];
+  const monthlyTiers   = allTiers?.filter((t) => t.billingCycle === "monthly")   ?? [];
   return (
     <>
-      <HeroBackground className="hero-bg" />
-      <Nav settings={settings} showArchives />
-      <main className="fixed-stage">
-        <section className="lhs">
-          <p className="eyebrow">Featured Work</p>
-          <h1>
-            {settings.heroHeadline} <em>{settings.heroItalic}</em>
-          </h1>
-          <CardStack videos={videos} />
-          <TrustedBy brands={settings.trustedBy} />
-        </section>
-
-        <section className="rhs">
-          <PricingPanel tiers={pricing} bookCallUrl={settings.bookCallUrl} />
-          <div className="testimonials">
-            <div className="testi-track">
-              {[...testimonials, ...testimonials].map((t, i) => (
-                <div key={`${t._id}-${i}`} className="testi-item">
-                  <img
-                    src={t.avatarUrl}
-                    alt=""
-                    width={28}
-                    height={28}
-                    className="testi-avatar"
-                    loading="lazy"
-                  />
-                  <p className="testi-quote">&ldquo;{t.quote}&rdquo;</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
+     <div className="relative isolate min-h-screen overscroll-none bg-[#f0f0f0] text-[#191919]">
+      {/*
+       * Main content card — casts a soft shadow over the dark footer canvas below.
+       * mb-[60vh] leaves room for the fixed dark background panel to peek through.
+       */}
+      <div className="relative isolate z-[1] mb-[30vh] rounded-b-[18px] bg-[#f0f0f0] shadow-[0_40px_80px_rgba(0,0,0,0.045)] sm:rounded-b-[35px]">
+        <Navbar bookCallUrl={settings?.bookCallUrl} />
+  
+        <main>
+          <HeroSection videos={videos} heroHeadline={settings?.heroHeadline} bookCallUrl={settings?.bookCallUrl} />
+          <TrustedBy trustedByHighlightText={settings?.trustedByHighlightText} brands={brands} /> 
+          <EscapeSection taglineHighlight={settings?.taglineHighlight} tagline={settings?.tagline} />
+     <PricingSection
+              quarterlyTiers={quarterlyTiers}
+              monthlyTiers={monthlyTiers}
+              bookCallUrl={settings?.bookCallUrl ?? "#"}
+              whatsappUrl={settings?.bookCallUrl}   // add whatsappUrl to SiteSettings if needed
+            />
+        </main>
+  
+        <Footer brandName={settings?.brandName} />
+ 
+        {/* Spacer so shadow renders flush */}
+        <div className="h-px" />
+      </div>
+ 
+      {/*
+       * Dark fixed footer canvas — sits behind the main card.
+       * The original Wabi site renders an interactive physics simulation here
+       * using a <canvas>. Replace the placeholder below with your own canvas
+       * component if you want that effect.
+       */}
+      <div className="fixed bottom-0 left-0 z-0 flex h-[40vh] w-full flex-col justify-end overflow-hidden bg-[#131313]">
+        {/* 
+          Optional: mount your physics/particle canvas here.
+          e.g. <PhysicsCanvas />
+        */}
+      </div>
+    </div>
     </>
   );
 }

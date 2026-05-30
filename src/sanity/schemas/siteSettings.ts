@@ -6,7 +6,12 @@ export default {
   __experimental_actions: ["update", "publish"],
   fields: [
     { name: "brandName", type: "string", title: "Brand name (e.g. CTW)" },
-    { name: "tagline", type: "string", title: "Tagline" },
+    {
+      name: "taglineHighlight",
+      type: "string",
+      title: "Tagline — italic / highlighted part (shown first)",
+    },
+    { name: "tagline", type: "string", title: "Tagline — normal part (shown after)" },
     {
       name: "bookCallUrl",
       type: "url",
@@ -39,12 +44,12 @@ export default {
     {
       name: "heroHeadline",
       type: "string",
-      title: "Hero headline first part (e.g. Clips that)",
+      title: "Hero headline",
     },
     {
-      name: "heroItalic",
+      name: "trustedByHighlightText",
       type: "string",
-      title: "Hero headline italic word (e.g. work.)",
+      title: "Trusted-by highlight text (e.g. Trusted by 500+ creators)",
     },
   ],
 };

@@ -194,8 +194,6 @@ export default function CardStack({ videos }: Props) {
     );
   }
 
-  console.log(">>>", featured)
-
   return (
     <>
       <div
@@ -260,7 +258,9 @@ export default function CardStack({ videos }: Props) {
                 setLightboxSrc(v.embedUrl);
               }}
             >
-              ↗
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" width="14" height="14">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+              </svg>
             </button>
           </div>
         ))}

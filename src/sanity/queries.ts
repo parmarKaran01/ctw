@@ -11,9 +11,12 @@ export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
 
 export const FEATURED_VIDEOS_QUERY = `
   *[_type == "video" && featured == true] | order(order asc) {
-    _id, title, subtitle, duration, tag, embedUrl, loopClipUrl, loopClipPoster,
-    "thumbUrl": thumbnail.asset->url,
-    "thumbLqip": thumbnail.asset->metadata.lqip,
+    _id,
+    title,
+    subtitle,
+    tag,
+    loopClipUrl,
+    loopClipPoster
   }
 `;
 
@@ -25,7 +28,22 @@ export const ALL_VIDEOS_QUERY = `
   }
 `;
 
-export const PRICING_QUERY = `*[_type == "pricingTier"] | order(order asc)`;
+export const PRICING_QUERY = `
+  *[_type == "pricingTier"] | order(order asc) {
+    _id,
+    label,
+    name,
+    turnaround,
+    price,
+    period,
+    badge,
+    description,
+    features,
+    ctaLabel,
+    billingCycle,
+    order
+  }
+`;
 
 export const TESTIMONIALS_QUERY = `
   *[_type == "testimonial"] | order(order asc) {

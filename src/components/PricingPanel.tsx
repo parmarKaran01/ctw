@@ -23,16 +23,18 @@ export default function PricingPanel({ tiers, bookCallUrl }: Props) {
 
   return (
     <>
-      <div className={styles.tabs}>
-        {tiers.map((t, i) => (
-          <button
-            key={t._id}
-            className={`${styles.tab} ${active === i ? styles.tabActive : ""}`}
-            onClick={() => setActive(i)}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className={styles.tabsWrapper}>
+        <div className={styles.tabs}>
+          {tiers.map((t, i) => (
+            <button
+              key={t._id}
+              className={`${styles.tab} ${active === i ? styles.tabActive : ""}`}
+              onClick={() => setActive(i)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className={styles.card}>

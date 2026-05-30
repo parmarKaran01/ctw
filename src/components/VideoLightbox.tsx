@@ -26,7 +26,9 @@ export default function VideoLightbox({ src, onClose }: Props) {
     >
       <div className={styles.inner}>
         <button className={styles.close} onClick={onClose}>
-          ✕
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
         <iframe
           src={`${src}?autoplay=1`}
