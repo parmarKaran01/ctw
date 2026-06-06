@@ -8,11 +8,13 @@ interface Props {
   monthlyTiers: PricingTier[];
   bookCallUrl: string;
   whatsappUrl?: string;
+  pricingFootnote1?: string;
+  pricingFootnote2?: string;
 }
 
 const CheckIcon = () => (
   <svg
-    className="mt-0.5 size-[15px] shrink-0"
+    className="mt-0.5 size-[18px] shrink-0"
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -43,12 +45,14 @@ export default function PricingSection({
   monthlyTiers,
   bookCallUrl,
   whatsappUrl,
+  pricingFootnote1,
+  pricingFootnote2,
 }: Props) {
   const [billing, setBilling] = useState<"quarterly" | "monthly">("quarterly");
 
   return (
-    <section className="bg-white px-4 py-16 sm:px-6 sm:py-20">
-      <div className="mx-auto max-w-2xl">
+    <section className="bg-white px-6 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-4xl">
 
         {/* Toggle */}
         <div className="mb-10 flex justify-center">
@@ -56,14 +60,14 @@ export default function PricingSection({
             <button
               type="button"
               onClick={() => setBilling("quarterly")}
-              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                 billing === "quarterly"
                   ? "bg-white text-[#191919] shadow-sm"
                   : "text-[#888] hover:text-[#555]"
               }`}
             >
               {billing === "quarterly" && (
-                <span className="rounded-full bg-[#191919] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                <span className="rounded-full bg-[#191919] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
                   Save 20%
                 </span>
               )}
@@ -72,7 +76,7 @@ export default function PricingSection({
             <button
               type="button"
               onClick={() => setBilling("monthly")}
-              className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 ${
+              className={`rounded-full px-6 py-2 text-sm font-medium transition-all duration-200 ${
                 billing === "monthly"
                   ? "bg-white text-[#191919] shadow-sm"
                   : "text-[#888] hover:text-[#555]"
@@ -84,11 +88,11 @@ export default function PricingSection({
         </div>
 
         {/* Headline */}
-        <div className="mb-8 text-center">
-          <h2 className="text-[38px] font-bold tracking-tight text-[#191919] sm:text-[46px]">
+        <div className="mb-10 text-center">
+          <h2 className="text-[42px] font-bold tracking-tight text-[#191919] sm:text-[52px]">
             Choose Your Plan
           </h2>
-          <p className="mt-2 text-[14px] text-[#888]">
+          <p className="mt-2 text-base text-[#888]">
             Unlimited short-form editing. Fixed monthly price. No surprises.
           </p>
         </div>
@@ -100,59 +104,59 @@ export default function PricingSection({
           Inactive column → dimmed.
           On mobile both columns stack; active one is ordered first.
         */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Quarterly column */}
           <div
-            className={`flex flex-col gap-4 transition-opacity duration-300 ${
+            className={`flex flex-col gap-5 transition-opacity duration-300 ${
               billing === "quarterly" ? "opacity-100" : "opacity-35 pointer-events-none select-none"
             } ${billing === "monthly" ? "order-last sm:order-first" : "order-first"}`}
           >
             {quarterlyTiers.map((tier) => (
               <div
                 key={tier._id}
-                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-7"
+                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8"
               >
-                <div className="mb-4 flex items-start justify-between gap-3">
+                <div className="mb-5 flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#888]">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-[#888]">
                       {tier.label}
                     </p>
-                    <h3 className="mt-0.5 text-base font-semibold tracking-tight text-[#191919]">
+                    <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#191919]">
                       {tier.name}
                     </h3>
                   </div>
                   {tier.turnaround && (
-                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-2.5 py-1 text-[11px] font-medium text-[#555]">
+                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-3 py-1 text-xs font-medium text-[#555]">
                       {tier.turnaround}
                     </span>
                   )}
                 </div>
-                <div className="mb-1 flex items-end gap-1.5">
-                  <span className="text-[32px] font-bold leading-none tracking-tight text-[#191919] sm:text-[36px]">
+                <div className="mb-1.5 flex items-end gap-1.5">
+                  <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
                     {tier.price}
                   </span>
                   <span className="mb-1 text-sm text-[#888]">{tier.period}</span>
                 </div>
-                {tier.badge && <p className="mb-4 text-[12px] text-[#888]">{tier.badge}</p>}
-                <div className="mb-4 h-px bg-[#f0f0f0]" />
+                {tier.badge && <p className="mb-5 text-sm text-[#888]">{tier.badge}</p>}
+                <div className="mb-5 h-px bg-[#f0f0f0]" />
                 {tier.description && (
-                  <p className="mb-4 text-[13px] leading-relaxed text-[#555]">{tier.description}</p>
+                  <p className="mb-5 text-sm leading-relaxed text-[#555]">{tier.description}</p>
                 )}
-                <ul className="mb-6 flex flex-col gap-2.5">
+                <ul className="mb-8 flex flex-col gap-3">
                   {tier.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-[13px] text-[#333]">
+                    <li key={i} className="flex items-start gap-3 text-sm text-[#333]">
                       <CheckIcon />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-auto flex flex-col gap-2.5">
+                <div className="mt-auto flex flex-col gap-3">
                   <a href={whatsappUrl ?? bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3 text-[13px] font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
+                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3.5 text-sm font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
                     <WhatsAppIcon />{tier.ctaLabel ?? "Message Us"}
                   </a>
                   <a href={bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3 text-[13px] font-medium text-white hover:bg-[#333] transition-colors">
+                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3.5 text-sm font-medium text-white hover:bg-[#333] transition-colors">
                     <CalendarIcon />Talk to Us
                   </a>
                 </div>
@@ -162,56 +166,56 @@ export default function PricingSection({
 
           {/* Monthly column */}
           <div
-            className={`flex flex-col gap-4 transition-opacity duration-300 ${
+            className={`flex flex-col gap-5 transition-opacity duration-300 ${
               billing === "monthly" ? "opacity-100" : "opacity-35 pointer-events-none select-none"
             } ${billing === "quarterly" ? "order-last sm:order-last" : "order-first"}`}
           >
             {monthlyTiers.map((tier) => (
               <div
                 key={tier._id}
-                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-7"
+                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8"
               >
-                <div className="mb-4 flex items-start justify-between gap-3">
+                <div className="mb-5 flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#888]">
+                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-[#888]">
                       {tier.label}
                     </p>
-                    <h3 className="mt-0.5 text-base font-semibold tracking-tight text-[#191919]">
+                    <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#191919]">
                       {tier.name}
                     </h3>
                   </div>
                   {tier.turnaround && (
-                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-2.5 py-1 text-[11px] font-medium text-[#555]">
+                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-3 py-1 text-xs font-medium text-[#555]">
                       {tier.turnaround}
                     </span>
                   )}
                 </div>
-                <div className="mb-1 flex items-end gap-1.5">
-                  <span className="text-[32px] font-bold leading-none tracking-tight text-[#191919] sm:text-[36px]">
+                <div className="mb-1.5 flex items-end gap-1.5">
+                  <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
                     {tier.price}
                   </span>
                   <span className="mb-1 text-sm text-[#888]">{tier.period}</span>
                 </div>
-                {tier.badge && <p className="mb-4 text-[12px] text-[#888]">{tier.badge}</p>}
-                <div className="mb-4 h-px bg-[#f0f0f0]" />
+                {tier.badge && <p className="mb-5 text-sm text-[#888]">{tier.badge}</p>}
+                <div className="mb-5 h-px bg-[#f0f0f0]" />
                 {tier.description && (
-                  <p className="mb-4 text-[13px] leading-relaxed text-[#555]">{tier.description}</p>
+                  <p className="mb-5 text-sm leading-relaxed text-[#555]">{tier.description}</p>
                 )}
-                <ul className="mb-6 flex flex-col gap-2.5">
+                <ul className="mb-8 flex flex-col gap-3">
                   {tier.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-[13px] text-[#333]">
+                    <li key={i} className="flex items-start gap-3 text-sm text-[#333]">
                       <CheckIcon />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-auto flex flex-col gap-2.5">
+                <div className="mt-auto flex flex-col gap-3">
                   <a href={whatsappUrl ?? bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3 text-[13px] font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
+                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3.5 text-sm font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
                     <WhatsAppIcon />{tier.ctaLabel ?? "Message Us"}
                   </a>
                   <a href={bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3 text-[13px] font-medium text-white hover:bg-[#333] transition-colors">
+                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3.5 text-sm font-medium text-white hover:bg-[#333] transition-colors">
                     <CalendarIcon />Talk to Us
                   </a>
                 </div>
@@ -221,14 +225,12 @@ export default function PricingSection({
         </div>
 
         {/* Footnotes */}
-        <div className="mt-6 space-y-1 text-center">
-          <p className="text-[12px] text-[#aaa]">
-            *Rush hour delivery: Delivery within 24 hours for your urgent requests.
-          </p>
-          <p className="text-[12px] text-[#aaa]">
-            All plans require a 3-month commitment. Cancel or upgrade anytime.
-          </p>
-        </div>
+        {(pricingFootnote1 || pricingFootnote2) && (
+          <div className="mt-8 space-y-1.5 text-center">
+            {pricingFootnote1 && <p className="text-sm text-[#aaa]">{pricingFootnote1}</p>}
+            {pricingFootnote2 && <p className="text-sm text-[#aaa]">{pricingFootnote2}</p>}
+          </div>
+        )}
       </div>
     </section>
   );

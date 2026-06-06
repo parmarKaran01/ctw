@@ -56,6 +56,31 @@ const siteSettings = {
       type: "string",
       title: "Trusted-by highlight text (e.g. Trusted by 500+ creators)",
     },
+    {
+      name: "pricingFootnote1",
+      type: "string",
+      title: "Pricing section — footnote line 1",
+    },
+    {
+      name: "pricingFootnote2",
+      type: "string",
+      title: "Pricing section — footnote line 2",
+    },
+    {
+      name: "socialXUrl",
+      type: "url",
+      title: "X (Twitter) URL",
+    },
+    {
+      name: "socialInstagramUrl",
+      type: "url",
+      title: "Instagram URL",
+    },
+    {
+      name: "whoAreWeLink",
+      type: "url",
+      title: "\"Who are we\" button link",
+    },
   ],
 };
 

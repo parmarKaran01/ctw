@@ -12,6 +12,11 @@ export interface SiteSettings {
   statsLine: string;
   trustedBy: TrustedBrand[];
   trustedByHighlightText: string;
+  pricingFootnote1: string;
+  pricingFootnote2: string;
+  socialXUrl: string;
+  socialInstagramUrl: string;
+  whoAreWeLink: string;
   heroHeadline: string;
 }
 export interface SanityVideo {

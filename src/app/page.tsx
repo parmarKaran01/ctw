@@ -60,10 +60,12 @@ export default async function Home() {
               monthlyTiers={monthlyTiers}
               bookCallUrl={settings?.bookCallUrl ?? "#"}
               whatsappUrl={settings?.whatsappUrl}
+              pricingFootnote1={settings?.pricingFootnote1}
+              pricingFootnote2={settings?.pricingFootnote2}
             />
           </main>
 
-          <Footer brandName={settings?.brandName} />
+          <Footer brandName={settings?.brandName} socialXUrl={settings?.socialXUrl} socialInstagramUrl={settings?.socialInstagramUrl} />
 
           {/* Spacer so shadow renders flush */}
           <div className="h-px" />
