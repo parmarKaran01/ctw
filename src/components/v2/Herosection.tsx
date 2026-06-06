@@ -2,7 +2,7 @@ import { GlassmorphicButton } from "./GlassmorphicButton";
 import { SanityVideo } from "../../types/sanity";
 import { HeroCarousel } from "./Herocarousel";
 
-const ANNOUNCEMENT_URL = "https://x.com/ekuyda/status/1986135875479380479";
+const ANNOUNCEMENT_URL = "https://x.com";
 
 interface HeroSectionProps {
   videos: Pick<SanityVideo, "_id" | "title" | "loopClipUrl" | "loopClipPoster">[];
