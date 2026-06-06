@@ -8,6 +8,7 @@ export interface SiteSettings {
   taglineHighlight: string;
   tagline: string;
   bookCallUrl: string;
+  whatsappUrl: string;
   statsLine: string;
   trustedBy: TrustedBrand[];
   trustedByHighlightText: string;

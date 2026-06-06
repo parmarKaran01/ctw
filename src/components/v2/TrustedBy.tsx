@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 interface TrustedBrand {
   name: string;
   logoUrl?: string;
@@ -20,9 +16,7 @@ export default function TrustedBy({
 
   return (
     <section className="relative overflow-hidden py-20">
-      {/* atmospheric bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#f7f5ef] to-transparent" />
-
       <div className="relative mx-auto max-w-6xl px-6">
         {/* heading */}
         <div className="mb-10 text-center">
@@ -40,31 +34,10 @@ export default function TrustedBy({
         </div>
 
         {hasBrands && (
-          <div
-            className="
-              relative overflow-hidden rounded-[32px]
-              border border-black/[0.04]
-              bg-white/50
-              px-6 py-8
-              backdrop-blur-2xl
-            "
-          >
-            {/* edge fades */}
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-[#f7f5ef] to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-[#f7f5ef] to-transparent" />
-
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                repeat: Infinity,
-                duration: 20,
-                ease: "linear",
-              }}
-              className="flex min-w-max items-center gap-20"
-            >
-              {[...brands, ...brands].map((brand, i) => (
+          <div className="flex flex-wrap items-center justify-center gap-12">
+              {brands.map((brand) => (
                 <div
-                  key={`${brand.name}-${i}`}
+                  key={brand.name}
                   className="
                     flex shrink-0 items-center justify-center
                     opacity-70 transition-all duration-300
@@ -77,8 +50,8 @@ export default function TrustedBy({
                       alt={brand.name}
                       loading="lazy"
                       className="
-                        h-auto max-h-[42px]
-                        w-auto max-w-[140px]
+                        h-auto max-h-[56px]
+                        w-auto max-w-[180px]
                         object-contain grayscale
                       "
                     />
@@ -89,7 +62,6 @@ export default function TrustedBy({
                   )}
                 </div>
               ))}
-            </motion.div>
           </div>
         )}
       </div>

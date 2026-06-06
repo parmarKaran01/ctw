@@ -18,6 +18,11 @@ const siteSettings = {
       title: "Book-a-call link (Calendly / Cal.com)",
     },
     {
+      name: "whatsappUrl",
+      type: "url",
+      title: "WhatsApp link",
+    },
+    {
       name: "statsLine",
       type: "string",
       title: "Stats line (bottom of home page)",
