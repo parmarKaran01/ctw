@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { headers } from "next/headers";
 import { sanityFetch } from "@/sanity/client";
 import {
   SITE_SETTINGS_QUERY,
@@ -36,6 +37,7 @@ export default async function Home() {
     getFeatured(),
     getPricingTiers(),
   ]);
+  const country = (await headers()).get("x-vercel-ip-country") || "US";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const brands = settings?.trustedBy?.map((brand: any) => ({ name: brand.name, logoUrl: brand.logoUrl })) || [];
   return (
@@ -54,6 +56,7 @@ export default async function Home() {
             <EscapeSection taglineHighlight={settings?.taglineHighlight} tagline={settings?.tagline} />
             <PricingSection
               tiers={allTiers || []}
+              country={country}
               bookCallUrl={settings?.bookCallUrl ?? "#"}
               whatsappUrl={settings?.whatsappUrl}
               pricingFootnote1={settings?.pricingFootnote1}

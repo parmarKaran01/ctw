@@ -5,6 +5,7 @@ import type { PricingTier } from "@/types/sanity";
 
 interface Props {
   tiers: PricingTier[];
+  country?: string;
   bookCallUrl?: string;
   whatsappUrl?: string;
   pricingFootnote1?: string;
@@ -43,15 +44,24 @@ const CalendarIcon = () => (
 function PricingCard({
   tier,
   activeBilling,
+  currency,
   bookCallUrl,
   whatsappUrl,
 }: {
   tier: PricingTier;
   activeBilling: "quarterly" | "monthly";
+  currency: "USD" | "INR";
   bookCallUrl: string;
   whatsappUrl?: string;
 }) {
   const quarterlyActive = activeBilling === "quarterly";
+  const suffix = currency === "INR" ? "INR" : "USD";
+  const priceKey = quarterlyActive ? `quarterlyPrice${suffix}` as const : `monthlyPrice${suffix}` as const;
+  const periodKey = quarterlyActive ? `quarterlyPeriod${suffix}` as const : `monthlyPeriod${suffix}` as const;
+  const badgeKey = quarterlyActive ? `quarterlyBadge${suffix}` as const : `monthlyBadge${suffix}` as const;
+  const price = tier[priceKey];
+  const period = tier[periodKey];
+  const badge = tier[badgeKey];
 
   return (
     <div className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8">
@@ -69,21 +79,13 @@ function PricingCard({
 
       {/* Price */}
       <div className="mb-1.5">
-        {quarterlyActive ? (
+        {price && (
           <>
             <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
-              {tier.quarterlyPrice}
+              {price}
             </span>
-            <span className="mb-1 ml-1 text-sm text-[#888]">{tier.quarterlyPeriod}</span>
-            {tier.quarterlyBadge && <p className="mt-1 text-sm text-[#888]">{tier.quarterlyBadge}</p>}
-          </>
-        ) : (
-          <>
-            <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
-              {tier.monthlyPrice}
-            </span>
-            <span className="mb-1 ml-1 text-sm text-[#888]">{tier.monthlyPeriod}</span>
-            {tier.monthlyBadge && <p className="mt-1 text-sm text-[#888]">{tier.monthlyBadge}</p>}
+            {period && <span className="mb-1 ml-1 text-sm text-[#888]">{period}</span>}
+            {badge && <p className="mt-1 text-sm text-[#888]">{badge}</p>}
           </>
         )}
       </div>
@@ -129,6 +131,7 @@ function PricingCard({
 
 export default function PricingSection({
   tiers,
+  country,
   bookCallUrl = "#",
   whatsappUrl,
   pricingFootnote1,
@@ -136,11 +139,12 @@ export default function PricingSection({
   pricingToggleBadge,
 }: Props) {
   const [billing, setBilling] = useState<"quarterly" | "monthly">("quarterly");
+  const currency: "USD" | "INR" = country === "IN" ? "INR" : "USD";
 
   return (
     <section className="bg-white px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-4xl">
-        {/* Toggle */}
+        {/* Billing toggle */}
         <div className="mb-12 flex justify-center">
           <div className="flex items-center rounded-full border border-[#e5e5e5] bg-[#f5f5f5] p-1.5">
             <button
@@ -152,8 +156,8 @@ export default function PricingSection({
                   : "text-[#888] hover:text-[#555]"
               }`}
             >
-              {billing === "quarterly" && (
-                pricingToggleBadge && <span className="rounded-full bg-[#191919] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
+              {billing === "quarterly" && pricingToggleBadge && (
+                <span className="rounded-full bg-[#191919] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
                   {pricingToggleBadge}
                 </span>
               )}
@@ -190,6 +194,7 @@ export default function PricingSection({
               key={tier._id}
               tier={tier}
               activeBilling={billing}
+              currency={currency}
               bookCallUrl={bookCallUrl}
               whatsappUrl={whatsappUrl}
             />
