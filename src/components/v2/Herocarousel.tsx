@@ -15,8 +15,8 @@ interface HeroCarouselProps {
 }
 
 /** How far apart (translateX) the inactive cards sit from centre */
-const SIDE_OFFSET_X = 320;
-const SIDE_OFFSET_Y = -28;
+const SIDE_OFFSET_X = 256;
+const SIDE_OFFSET_Y = -22;
 const SIDE_SCALE = 0.88;
 const SIDE_ROTATE = 8; // degrees
 
@@ -118,10 +118,10 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
   if (!videos.length) return null;
 
   return (
-    <div className="relative z-[1] min-h-[690px] flex-1">
+    <div className="relative z-[1] min-h-[552px] flex-1">
       {/* Card stack */}
       <div
-        className="relative mx-auto mt-0 h-[580px] max-w-[1000px] cursor-grab touch-pan-y select-none active:cursor-grabbing sm:mt-[88px] sm:h-[clamp(580px,58vw,840px)]"
+        className="relative mx-auto mt-0 h-[464px] max-w-[800px] cursor-grab touch-pan-y select-none active:cursor-grabbing sm:mt-[70px] sm:h-[clamp(464px,46vw,672px)]"
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -132,9 +132,9 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
         {videos.map((video, i) => (
           <div
             key={video._id}
-            className="absolute top-1/2 left-1/2 w-[min(580px,82vw)] overflow-hidden rounded-[24px] will-change-transform"
+            className="absolute top-1/2 left-1/2 w-[min(464px,65vw)] overflow-hidden rounded-[20px] will-change-transform"
             style={{
-              height: "clamp(580px, 58vw, 840px)",
+              height: "clamp(464px, 46vw, 672px)",
               transition: "transform 0.5s cubic-bezier(0.32,0.72,0,1), opacity 0.4s ease",
               ...getCardStyle(i, active),
             }}
@@ -171,7 +171,7 @@ export function HeroCarousel({ videos }: HeroCarouselProps) {
       </div>
 
       {/* Dot pagination */}
-      <div className="-mt-[35px] flex justify-center gap-2 sm:mt-[50px]">
+      <div className="-mt-[28px] flex justify-center gap-2 sm:mt-[40px]">
         {videos.map((video, i) => (
           <button
             key={video._id}

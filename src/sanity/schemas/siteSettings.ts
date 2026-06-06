@@ -67,6 +67,11 @@ const siteSettings = {
       title: "Pricing section — footnote line 2",
     },
     {
+      name: "pricingToggleBadge",
+      type: "string",
+      title: "Pricing toggle — save badge text (e.g. Save 20%)",
+    },
+    {
       name: "socialXUrl",
       type: "url",
       title: "X (Twitter) URL",

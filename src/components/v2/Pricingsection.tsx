@@ -9,6 +9,7 @@ interface Props {
   whatsappUrl?: string;
   pricingFootnote1?: string;
   pricingFootnote2?: string;
+  pricingToggleBadge?: string;
 }
 
 const CheckIcon = () => (
@@ -132,6 +133,7 @@ export default function PricingSection({
   whatsappUrl,
   pricingFootnote1,
   pricingFootnote2,
+  pricingToggleBadge,
 }: Props) {
   const [billing, setBilling] = useState<"quarterly" | "monthly">("quarterly");
 
@@ -151,8 +153,8 @@ export default function PricingSection({
               }`}
             >
               {billing === "quarterly" && (
-                <span className="rounded-full bg-[#191919] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
-                  Save 20%
+                pricingToggleBadge && <span className="rounded-full bg-[#191919] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
+                  {pricingToggleBadge}
                 </span>
               )}
               Quarterly
@@ -173,7 +175,7 @@ export default function PricingSection({
 
         {/* Headline */}
         <div className="mb-12 text-center">
-          <h2 className="text-[42px] font-bold tracking-tight text-[#191919] sm:text-[52px]">
+          <h2 className="text-[28px] font-bold tracking-tight text-[#191919] sm:text-[52px]">
             Choose Your Plan
           </h2>
           <p className="mt-3 text-base text-[#888]">

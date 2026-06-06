@@ -18,8 +18,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "CTW | Video Portfolio",
-  description: "Professional video editing portfolio",
+  title: "Video Editing That Gets Results | Clips That Work",
+  description:
+    "Video editing portfolio showcasing high-performing reels, shorts, YouTube videos, and branded content. Turn raw footage into content that captures attention and converts.",
 };
 
 export default function RootLayout({

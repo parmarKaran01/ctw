@@ -14,6 +14,7 @@ export interface SiteSettings {
   trustedByHighlightText: string;
   pricingFootnote1: string;
   pricingFootnote2: string;
+  pricingToggleBadge?: string;
   socialXUrl: string;
   socialInstagramUrl: string;
   whoAreWeLink: string;

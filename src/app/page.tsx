@@ -58,6 +58,7 @@ export default async function Home() {
               whatsappUrl={settings?.whatsappUrl}
               pricingFootnote1={settings?.pricingFootnote1}
               pricingFootnote2={settings?.pricingFootnote2}
+              pricingToggleBadge={settings?.pricingToggleBadge}
             />
           </main>
 
