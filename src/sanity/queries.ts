@@ -34,13 +34,15 @@ export const PRICING_QUERY = `
     label,
     name,
     turnaround,
-    price,
-    period,
-    badge,
+    quarterlyPrice,
+    quarterlyPeriod,
+    quarterlyBadge,
+    monthlyPrice,
+    monthlyPeriod,
+    monthlyBadge,
     description,
     features,
     ctaLabel,
-    billingCycle,
     order
   }
 `;

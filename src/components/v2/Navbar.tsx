@@ -18,7 +18,7 @@ export function Navbar({ bookCallUrl }: { bookCallUrl?: string }) {
 
   return (
     <nav
-      className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-[#f0f0f0] px-5 py-4 sm:p-6 md:bg-transparent md:p-8"
+      className="fixed inset-x-0 top-0 z-[100] flex items-center justify-between bg-[#f0f0f0] px-3 py-2 sm:p-3 md:bg-transparent md:p-4"
       aria-label="Primary"
     >
       {/* Logo */}

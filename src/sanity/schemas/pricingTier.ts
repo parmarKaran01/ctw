@@ -7,9 +7,38 @@ const pricingTier = {
     { name: "label",       type: "string", title: "Tab label (e.g. Starter)" },
     { name: "name",        type: "string", title: "Full name (e.g. CTW Essentials)" },
     { name: "turnaround",  type: "string", title: "Turnaround (e.g. 24–48hr)" },
-    { name: "price",       type: "string", title: "Price (e.g. ₹41,299)" },
-    { name: "period",      type: "string", title: "Period (e.g. / month)", initialValue: "/ month" },
-    { name: "badge",       type: "string", title: "Badge text (e.g. Billed every 3 months)" },
+    {
+      name: "quarterlyPrice",
+      type: "string",
+      title: "Quarterly price (e.g. ₹41,299)",
+    },
+    {
+      name: "quarterlyPeriod",
+      type: "string",
+      title: "Quarterly period (e.g. / quarter)",
+      initialValue: "/ quarter",
+    },
+    {
+      name: "quarterlyBadge",
+      type: "string",
+      title: "Quarterly badge (e.g. Billed every 3 months)",
+    },
+    {
+      name: "monthlyPrice",
+      type: "string",
+      title: "Monthly price (e.g. ₹16,999)",
+    },
+    {
+      name: "monthlyPeriod",
+      type: "string",
+      title: "Monthly period (e.g. / month)",
+      initialValue: "/ month",
+    },
+    {
+      name: "monthlyBadge",
+      type: "string",
+      title: "Monthly badge",
+    },
     { name: "description", type: "string", title: "Short description" },
     {
       name: "features",
@@ -18,20 +47,6 @@ const pricingTier = {
       of: [{ type: "string" }],
     },
     { name: "ctaLabel", type: "string", title: "CTA button label" },
-    {
-      name: "billingCycle",        // ← NEW FIELD
-      type: "string",
-      title: "Billing Cycle",
-      options: {
-        list: [
-          { title: "Quarterly", value: "quarterly" },
-          { title: "Monthly",   value: "monthly"   },
-        ],
-        layout: "radio",
-      },
-      initialValue: "quarterly",
-      validation: (r: any) => r.required(),
-    },
     { name: "order", type: "number", title: "Sort order" },
   ],
   orderings: [
@@ -42,7 +57,7 @@ const pricingTier = {
     },
   ],
   preview: {
-    select: { title: "name", subtitle: "billingCycle" },
+    select: { title: "name" },
   },
 };
 

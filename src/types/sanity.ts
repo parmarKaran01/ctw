@@ -45,13 +45,15 @@ export interface PricingTier {
   label: string;
   name: string;
   turnaround?: string;
-  price: string;
-  period: string;
-  badge?: string;
+  quarterlyPrice: string;
+  quarterlyPeriod: string;
+  quarterlyBadge?: string;
+  monthlyPrice: string;
+  monthlyPeriod: string;
+  monthlyBadge?: string;
   description?: string;
   features: string[];
   ctaLabel?: string;
-  billingCycle: "quarterly" | "monthly";
   order?: number;
 }
 

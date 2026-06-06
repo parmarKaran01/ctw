@@ -4,9 +4,8 @@ import { useState } from "react";
 import type { PricingTier } from "@/types/sanity";
 
 interface Props {
-  quarterlyTiers: PricingTier[];
-  monthlyTiers: PricingTier[];
-  bookCallUrl: string;
+  tiers: PricingTier[];
+  bookCallUrl?: string;
   whatsappUrl?: string;
   pricingFootnote1?: string;
   pricingFootnote2?: string;
@@ -40,10 +39,96 @@ const CalendarIcon = () => (
   </svg>
 );
 
-export default function PricingSection({
-  quarterlyTiers,
-  monthlyTiers,
+function PricingCard({
+  tier,
+  activeBilling,
   bookCallUrl,
+  whatsappUrl,
+}: {
+  tier: PricingTier;
+  activeBilling: "quarterly" | "monthly";
+  bookCallUrl: string;
+  whatsappUrl?: string;
+}) {
+  const quarterlyActive = activeBilling === "quarterly";
+
+  return (
+    <div className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8">
+      <div className="mb-5 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-medium uppercase tracking-[0.08em] text-[#888]">{tier.label}</p>
+          <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#191919]">{tier.name}</h3>
+        </div>
+        {tier.turnaround && (
+          <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-3 py-1 text-xs font-medium text-[#555]">
+            {tier.turnaround}
+          </span>
+        )}
+      </div>
+
+      {/* Price */}
+      <div className="mb-1.5">
+        {quarterlyActive ? (
+          <>
+            <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
+              {tier.quarterlyPrice}
+            </span>
+            <span className="mb-1 ml-1 text-sm text-[#888]">{tier.quarterlyPeriod}</span>
+            {tier.quarterlyBadge && <p className="mt-1 text-sm text-[#888]">{tier.quarterlyBadge}</p>}
+          </>
+        ) : (
+          <>
+            <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
+              {tier.monthlyPrice}
+            </span>
+            <span className="mb-1 ml-1 text-sm text-[#888]">{tier.monthlyPeriod}</span>
+            {tier.monthlyBadge && <p className="mt-1 text-sm text-[#888]">{tier.monthlyBadge}</p>}
+          </>
+        )}
+      </div>
+
+      <div className="mb-5 h-px bg-[#f0f0f0]" />
+
+      {tier.description && (
+        <p className="mb-5 text-sm leading-relaxed text-[#555]">{tier.description}</p>
+      )}
+
+      <ul className="mb-8 flex flex-col gap-3">
+        {tier.features.map((f, i) => (
+          <li key={i} className="flex items-start gap-3 text-sm text-[#333]">
+            <CheckIcon />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-col gap-3">
+        <a
+          href={whatsappUrl ?? bookCallUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3.5 text-sm font-medium text-[#191919] transition-colors hover:bg-[#f5f5f5]"
+        >
+          <WhatsAppIcon />
+          {tier.ctaLabel ?? "Message Us"}
+        </a>
+        <a
+          href={bookCallUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3.5 text-sm font-medium text-white transition-colors hover:bg-[#333]"
+        >
+          <CalendarIcon />
+          Talk to Us
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export default function PricingSection({
+  tiers,
+  bookCallUrl = "#",
   whatsappUrl,
   pricingFootnote1,
   pricingFootnote2,
@@ -53,21 +138,20 @@ export default function PricingSection({
   return (
     <section className="bg-white px-6 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-4xl">
-
         {/* Toggle */}
-        <div className="mb-10 flex justify-center">
-          <div className="flex items-center rounded-full border border-[#e5e5e5] bg-[#f5f5f5] p-1">
+        <div className="mb-12 flex justify-center">
+          <div className="flex items-center rounded-full border border-[#e5e5e5] bg-[#f5f5f5] p-1.5">
             <button
               type="button"
               onClick={() => setBilling("quarterly")}
-              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 rounded-full px-6 py-2 text-sm font-medium transition-all duration-200 ${
                 billing === "quarterly"
                   ? "bg-white text-[#191919] shadow-sm"
                   : "text-[#888] hover:text-[#555]"
               }`}
             >
               {billing === "quarterly" && (
-                <span className="rounded-full bg-[#191919] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
+                <span className="rounded-full bg-[#191919] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
                   Save 20%
                 </span>
               )}
@@ -88,140 +172,26 @@ export default function PricingSection({
         </div>
 
         {/* Headline */}
-        <div className="mb-10 text-center">
+        <div className="mb-12 text-center">
           <h2 className="text-[42px] font-bold tracking-tight text-[#191919] sm:text-[52px]">
             Choose Your Plan
           </h2>
-          <p className="mt-2 text-base text-[#888]">
+          <p className="mt-3 text-base text-[#888]">
             Unlimited short-form editing. Fixed monthly price. No surprises.
           </p>
         </div>
 
-        {/*
-          Layout: each plan tier (e.g. Starter, Pro) gets its own column.
-          Column 0 = all quarterly tiers stacked; Column 1 = all monthly tiers stacked.
-          Active billing cycle column → full opacity.
-          Inactive column → dimmed.
-          On mobile both columns stack; active one is ordered first.
-        */}
+        {/* Cards */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Quarterly column */}
-          <div
-            className={`flex flex-col gap-5 transition-opacity duration-300 ${
-              billing === "quarterly" ? "opacity-100" : "opacity-35 pointer-events-none select-none"
-            } ${billing === "monthly" ? "order-last sm:order-first" : "order-first"}`}
-          >
-            {quarterlyTiers.map((tier) => (
-              <div
-                key={tier._id}
-                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8"
-              >
-                <div className="mb-5 flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-[#888]">
-                      {tier.label}
-                    </p>
-                    <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#191919]">
-                      {tier.name}
-                    </h3>
-                  </div>
-                  {tier.turnaround && (
-                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-3 py-1 text-xs font-medium text-[#555]">
-                      {tier.turnaround}
-                    </span>
-                  )}
-                </div>
-                <div className="mb-1.5 flex items-end gap-1.5">
-                  <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
-                    {tier.price}
-                  </span>
-                  <span className="mb-1 text-sm text-[#888]">{tier.period}</span>
-                </div>
-                {tier.badge && <p className="mb-5 text-sm text-[#888]">{tier.badge}</p>}
-                <div className="mb-5 h-px bg-[#f0f0f0]" />
-                {tier.description && (
-                  <p className="mb-5 text-sm leading-relaxed text-[#555]">{tier.description}</p>
-                )}
-                <ul className="mb-8 flex flex-col gap-3">
-                  {tier.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-[#333]">
-                      <CheckIcon />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto flex flex-col gap-3">
-                  <a href={whatsappUrl ?? bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3.5 text-sm font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
-                    <WhatsAppIcon />{tier.ctaLabel ?? "Message Us"}
-                  </a>
-                  <a href={bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3.5 text-sm font-medium text-white hover:bg-[#333] transition-colors">
-                    <CalendarIcon />Talk to Us
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Monthly column */}
-          <div
-            className={`flex flex-col gap-5 transition-opacity duration-300 ${
-              billing === "monthly" ? "opacity-100" : "opacity-35 pointer-events-none select-none"
-            } ${billing === "quarterly" ? "order-last sm:order-last" : "order-first"}`}
-          >
-            {monthlyTiers.map((tier) => (
-              <div
-                key={tier._id}
-                className="flex flex-col rounded-2xl border border-[#d0d0d0] bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-all duration-300 sm:p-8"
-              >
-                <div className="mb-5 flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-[0.08em] text-[#888]">
-                      {tier.label}
-                    </p>
-                    <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#191919]">
-                      {tier.name}
-                    </h3>
-                  </div>
-                  {tier.turnaround && (
-                    <span className="mt-0.5 shrink-0 rounded-full bg-[#f0f0f0] px-3 py-1 text-xs font-medium text-[#555]">
-                      {tier.turnaround}
-                    </span>
-                  )}
-                </div>
-                <div className="mb-1.5 flex items-end gap-1.5">
-                  <span className="text-[36px] font-bold leading-none tracking-tight text-[#191919] sm:text-[42px]">
-                    {tier.price}
-                  </span>
-                  <span className="mb-1 text-sm text-[#888]">{tier.period}</span>
-                </div>
-                {tier.badge && <p className="mb-5 text-sm text-[#888]">{tier.badge}</p>}
-                <div className="mb-5 h-px bg-[#f0f0f0]" />
-                {tier.description && (
-                  <p className="mb-5 text-sm leading-relaxed text-[#555]">{tier.description}</p>
-                )}
-                <ul className="mb-8 flex flex-col gap-3">
-                  {tier.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-[#333]">
-                      <CheckIcon />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto flex flex-col gap-3">
-                  <a href={whatsappUrl ?? bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl border border-[#e5e5e5] bg-white py-3.5 text-sm font-medium text-[#191919] hover:bg-[#f5f5f5] transition-colors">
-                    <WhatsAppIcon />{tier.ctaLabel ?? "Message Us"}
-                  </a>
-                  <a href={bookCallUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-[#191919] py-3.5 text-sm font-medium text-white hover:bg-[#333] transition-colors">
-                    <CalendarIcon />Talk to Us
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
+          {tiers.map((tier) => (
+            <PricingCard
+              key={tier._id}
+              tier={tier}
+              activeBilling={billing}
+              bookCallUrl={bookCallUrl}
+              whatsappUrl={whatsappUrl}
+            />
+          ))}
         </div>
 
         {/* Footnotes */}

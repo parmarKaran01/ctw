@@ -38,9 +38,6 @@ export default async function Home() {
   ]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const brands = settings?.trustedBy?.map((brand: any) => ({ name: brand.name, logoUrl: brand.logoUrl })) || [];
-  // Split tiers by billing cycle
-  const quarterlyTiers = allTiers?.filter((t) => t.billingCycle === "quarterly") ?? [];
-  const monthlyTiers = allTiers?.filter((t) => t.billingCycle === "monthly") ?? [];
   return (
     <>
       <div className="relative isolate min-h-screen overscroll-none bg-[#f0f0f0] text-[#191919]">
@@ -56,8 +53,7 @@ export default async function Home() {
             <TrustedBy trustedByHighlightText={settings?.trustedByHighlightText} brands={brands} />
             <EscapeSection taglineHighlight={settings?.taglineHighlight} tagline={settings?.tagline} />
             <PricingSection
-              quarterlyTiers={quarterlyTiers}
-              monthlyTiers={monthlyTiers}
+              tiers={allTiers || []}
               bookCallUrl={settings?.bookCallUrl ?? "#"}
               whatsappUrl={settings?.whatsappUrl}
               pricingFootnote1={settings?.pricingFootnote1}
